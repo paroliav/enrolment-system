@@ -1,0 +1,25 @@
+I"(function() {
+  this.ViewClass = React.createClass({
+    getInitialState: function() {
+      return {
+        student_courses: this.props.data
+      };
+    },
+    getDefaultProps: function() {
+      return {
+        student_courses: []
+      };
+    },
+    render: function() {
+      return React.DOM.div({
+        className: 'courses'
+      }, React.DOM.h2({
+        className: 'title'
+      }, 'View Class'), React.DOM.div, React.createElement(Students), React.DOM.hr(null), React.DOM.table({
+        className: 'table table-bordered'
+      }, React.DOM.thead(null, React.DOM.tr(null, React.DOM.th(null, 'Class ID'), React.DOM.th(null, 'Class Name'), React.DOM.th(null, 'Starting Date'), React.DOM.th(null, '# of Students'), React.DOM.th(null, 'Actions')))));
+    }
+  });
+
+}).call(this);
+:ET

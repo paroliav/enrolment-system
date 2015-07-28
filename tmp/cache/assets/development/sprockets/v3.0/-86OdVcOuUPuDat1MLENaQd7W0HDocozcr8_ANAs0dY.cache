@@ -1,0 +1,88 @@
+I"‚(function() {
+  this.Students = React.createClass({
+    getInitialState: function() {
+      return {
+        edit: false,
+        students: this.props.data
+      };
+    },
+    getDefaultProps: function() {
+      return {
+        students: []
+      };
+    },
+    handleChange: function(e) {
+      var name, obj;
+      name = e.target.name;
+      return this.setState((
+        obj = {},
+        obj["" + name] = e.target.value,
+        obj
+      ));
+    },
+    handleAdd: function(e) {
+      e.preventDefault();
+      console.log('Add student');
+      return $.get('/students', {}, (function(_this) {
+        return function(data) {
+          return _this.handleAddStudent(data);
+        };
+      })(this), 'JSON');
+    },
+    handleAddStudent: function(data) {
+      console.log('students', data);
+      this.setState({
+        students: data
+      });
+      return this.setState({
+        edit: true
+      });
+    },
+    studentForm: function() {
+      var student;
+      return React.DOM.form({
+        className: 'form-inline',
+        onSubmit: this.handleSubmit
+      }, React.DOM.div({
+        className: 'form-group'
+      }, React.DOM.select({
+        name: 'students',
+        className: 'form-control'
+      }, console.log(this.state.students), (function() {
+        var i, len, ref, results;
+        ref = this.state.students;
+        results = [];
+        for (i = 0, len = ref.length; i < len; i++) {
+          student = ref[i];
+          console.log(student);
+          results.push(React.DOM.option({
+            value: student.id,
+            label: student.name
+          }));
+        }
+        return results;
+      }).call(this), {
+        onChange: this.handleChange
+      }), React.DOM.button({
+        type: 'button',
+        className: 'btn btn-primary'
+      }, 'Add Student')));
+    },
+    studentButton: function() {
+      return React.DOM.button({
+        type: 'button',
+        className: 'btn btn-primary',
+        onClick: this.handleAdd
+      }, 'Add Student');
+    },
+    render: function() {
+      if (this.state.edit) {
+        return this.studentForm();
+      } else {
+        return this.studentButton();
+      }
+    }
+  });
+
+}).call(this);
+:ET

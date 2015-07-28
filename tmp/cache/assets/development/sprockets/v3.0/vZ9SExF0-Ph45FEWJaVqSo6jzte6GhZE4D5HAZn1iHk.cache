@@ -1,0 +1,141 @@
+I"(function() {
+  this.Students = React.createClass({
+    getInitialState: function() {
+      return {
+        edit: false,
+        students: this.props.data,
+        classes: this.props.data,
+        student_id: '',
+        class_id: ''
+      };
+    },
+    getDefaultProps: function() {
+      return {
+        students: [],
+        classes: [],
+        student_id: '',
+        class_id: ''
+      };
+    },
+    handleChange: function(e) {
+      var name, obj;
+      console.log(e.target.name, e.target.value);
+      name = e.target.name;
+      this.setState((
+        obj = {},
+        obj["" + name] = e.target.value,
+        obj
+      ));
+      return console.log(this.state.student_id, this.state.class_id);
+    },
+    handleAdd: function(e) {
+      e.preventDefault();
+      console.log('Add student');
+      $.get('/students', {}, (function(_this) {
+        return function(data) {
+          return _this.handleStudentsList(data);
+        };
+      })(this), 'JSON');
+      return $.get('/courses', {}, (function(_this) {
+        return function(data) {
+          return _this.handleClassList(data);
+        };
+      })(this), 'JSON');
+    },
+    handleStudentsList: function(students) {
+      console.log('students', students);
+      return this.setState({
+        students: students
+      });
+    },
+    handleClassList: function(classes) {
+      console.log('classes', classes);
+      this.setState({
+        classes: classes
+      });
+      return this.setState({
+        edit: true
+      });
+    },
+    enrollStudent: function(e) {
+      e.preventDefault();
+      return $.post('/enrollStudent', {
+        student_id: this.state.student_id
+      }, (function(_this) {
+        return function(data) {
+          _this.props.handleNewRecord(data);
+          return _this.setState(_this.getInitialState());
+        };
+      })(this), 'JSON');
+    },
+    studentForm: function() {
+      var course, student;
+      return React.DOM.form({
+        className: 'form-inline',
+        onSubmit: this.handleSubmit
+      }, React.DOM.div({
+        className: 'form-group',
+        onChange: this.handleChange
+      }, React.DOM.select({
+        name: 'student_id',
+        className: 'form-control'
+      }, React.DOM.option({
+        value: '',
+        label: 'Select Student'
+      }), (function() {
+        var i, len, ref, results;
+        ref = this.state.students['Students'];
+        results = [];
+        for (i = 0, len = ref.length; i < len; i++) {
+          student = ref[i];
+          results.push(React.DOM.option({
+            value: student.id,
+            label: student.id + ' ' + student.name
+          }));
+        }
+        return results;
+      }).call(this))), React.DOM.div({
+        className: 'form-group',
+        onChange: this.handleChange
+      }, React.DOM.select({
+        name: 'class_id',
+        className: 'form-control'
+      }, React.DOM.option({
+        value: '',
+        label: 'Select Class'
+      }), (function() {
+        var i, len, ref, results;
+        ref = this.state.classes;
+        results = [];
+        for (i = 0, len = ref.length; i < len; i++) {
+          course = ref[i];
+          results.push(React.DOM.option({
+            value: course.class_id,
+            label: course.class_id + ' ' + course.class_name
+          }));
+        }
+        return results;
+      }).call(this)), React.DOM.button({
+        type: 'button',
+        className: 'btn btn-primary',
+        onClick: this.enrollStudent
+      }, 'Add Student')));
+    },
+    studentButton: function() {
+      return React.DOM.button({
+        type: 'button',
+        className: 'btn btn-primary',
+        onClick: this.handleAdd
+      }, 'Add Student');
+    },
+    render: function() {
+      if (this.state.edit) {
+        return this.studentForm();
+      } else {
+        return this.studentButton();
+      }
+    }
+  });
+
+}).call(this);
+:ET

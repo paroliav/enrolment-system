@@ -1,0 +1,23 @@
+I"å(function() {
+  this.ViewClass = React.createClass({
+    getInitialState: function() {
+      return {
+        student_courses: this.props.data
+      };
+    },
+    getDefaultProps: function() {
+      return {
+        student_courses: []
+      };
+    },
+    render: function() {
+      return React.DOM.div({
+        className: 'courses'
+      }, React.DOM.h2({
+        className: 'title'
+      }, 'View Class'), React.DOM.div, React.createElement(Students));
+    }
+  });
+
+}).call(this);
+:ET

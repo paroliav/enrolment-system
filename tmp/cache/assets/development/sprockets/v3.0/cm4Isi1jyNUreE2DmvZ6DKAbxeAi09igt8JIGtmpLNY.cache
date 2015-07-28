@@ -1,0 +1,28 @@
+I"‰(function() {
+  this.ViewClass = React.createClass({
+    render: function() {
+      var student_course;
+      return React.DOM.div({
+        className: 'courses'
+      }, React.DOM.h2({
+        className: 'title'
+      }, 'Class View'), React.DOM.hr(null), React.DOM.table({
+        className: 'table table-bordered'
+      }, React.DOM.thead(null, React.DOM.tr(null, React.DOM.th(null, 'Class ID'), React.DOM.th(null, 'Student ID'))), React.DOM.tbody(null, (function() {
+        var i, len, ref, results;
+        ref = this.props.student_courses;
+        results = [];
+        for (i = 0, len = ref.length; i < len; i++) {
+          student_course = ref[i];
+          results.push(React.createElement(Class, {
+            student_course: student_course,
+            handleDeleteCourse: this.deleteCourse
+          }));
+        }
+        return results;
+      }).call(this))));
+    }
+  });
+
+}).call(this);
+:ET

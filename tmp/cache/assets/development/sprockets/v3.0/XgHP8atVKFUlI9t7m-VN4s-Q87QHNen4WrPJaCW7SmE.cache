@@ -1,0 +1,78 @@
+I"¸	(function() {
+  this.Courses = React.createClass({
+    getInitialState: function() {
+      return {
+        courses: this.props.data,
+        student_courses: this.props.data
+      };
+    },
+    getDefaultProps: function() {
+      return {
+        courses: [],
+        student_courses: []
+      };
+    },
+    addCourse: function(course) {
+      var courses;
+      courses = React.addons.update(this.state.courses, {
+        $push: [course]
+      });
+      return this.setState({
+        courses: courses
+      });
+    },
+    deleteCourse: function(course) {
+      var courses, index;
+      index = this.state.courses.indexOf(course);
+      courses = React.addons.update(this.state.courses, {
+        $splice: [[index, 1]]
+      });
+      return this.replaceState({
+        courses: courses
+      });
+    },
+    viewCourse: function(student_courses) {
+      var i, len, results, student_course, students;
+      results = [];
+      for (i = 0, len = student_courses.length; i < len; i++) {
+        student_course = student_courses[i];
+        students = React.addons.update(this.state.student_courses, {
+          $push: [student_course]
+        });
+        results.push(this.setState({
+          student_courses: students
+        }));
+      }
+      return results;
+    },
+    render: function() {
+      var course;
+      return React.DOM.div({
+        className: 'courses'
+      }, React.DOM.h2({
+        className: 'title'
+      }, 'Classes'), React.DOM.div, React.createElement(CourseForm, {
+        handleNewRecord: this.addCourse
+      }), React.DOM.hr(null), React.DOM.table({
+        className: 'table table-bordered'
+      }, React.DOM.thead(null, React.DOM.tr(null, React.DOM.th(null, 'Class ID'), React.DOM.th(null, 'Class Name'), React.DOM.th(null, 'Starting Date'), React.DOM.th(null, '# of Students'), React.DOM.th(null, 'Actions'))), React.DOM.tbody(null, (function() {
+        var i, len, ref, results;
+        ref = this.state.courses;
+        results = [];
+        for (i = 0, len = ref.length; i < len; i++) {
+          course = ref[i];
+          results.push(React.createElement(Course, {
+            course: course,
+            handleDeleteCourse: this.deleteCourse,
+            handleViewCourse: this.viewCourse
+          }));
+        }
+        return results;
+      }).call(this))), React.DOM.div, React.createElement(Students), React.DOM.div, React.createElement(ViewClass, {
+        student_courses: this.state.student_courses
+      }));
+    }
+  });
+
+}).call(this);
+:ET

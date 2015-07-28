@@ -1,0 +1,64 @@
+I"/(function() {
+  this.Course = React.createClass({
+    getInitialState: function() {
+      return {
+        edit: false
+      };
+    },
+    handleToggle: function(e) {
+      e.preventDefault();
+      return this.setState({
+        edit: !this.state.edit
+      });
+    },
+    handleDelete: function(e) {
+      e.preventDefault();
+      return $.ajax({
+        method: 'DELETE',
+        url: "/courses/" + this.props.course.id,
+        dataType: 'JSON',
+        success: (function(_this) {
+          return function() {
+            return _this.props.handleDeleteCourse(_this.props.course);
+          };
+        })(this)
+      });
+    },
+    handleView: function(e) {
+      e.preventDefault();
+      return {
+        render: function() {
+          return React.DOM.div({
+            className: 'row'
+          }, React.createElement(AmountBox, {
+            type: 'success',
+            amount: this.credits(),
+            text: 'Credit'
+          }), React.createElement(AmountBox, {
+            type: 'danger',
+            amount: this.debits(),
+            text: 'Debit'
+          }), React.createElement(AmountBox, {
+            type: 'info',
+            amount: this.balance(),
+            text: 'Balance'
+          }));
+        }
+      };
+    },
+    courseRow: function() {
+      return React.DOM.tr(null, React.DOM.td(null, this.props.course.class_id), React.DOM.td(null, this.props.course.class_name), React.DOM.td(null, this.props.course.starting_date), React.DOM.td(null, this.props.course.max_no_of_students), React.DOM.td(null, React.DOM.a({
+        className: 'btn btn-default',
+        onClick: this.handleView
+      }, 'View'), React.DOM.a({
+        className: 'btn btn-danger',
+        onClick: this.handleDelete
+      }, 'Delete')));
+    },
+    render: function() {
+      return this.courseRow();
+    }
+  });
+
+}).call(this);
+:ET

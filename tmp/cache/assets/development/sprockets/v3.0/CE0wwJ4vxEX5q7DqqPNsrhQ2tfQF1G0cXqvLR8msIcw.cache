@@ -1,0 +1,28 @@
+I"©(function() {
+  this.Class = React.createClass({
+    handleRemoveStudent: function(e) {
+      e.preventDefault();
+      return $.ajax({
+        method: 'DELETE',
+        url: "/courses/" + this.props.course.id,
+        dataType: 'JSON',
+        success: (function(_this) {
+          return function() {
+            return _this.props.handleDeleteCourse(_this.props.course);
+          };
+        })(this)
+      });
+    },
+    classRow: function() {
+      return React.DOM.tr(null, React.DOM.td(null, this.props.student_course.class_id), React.DOM.td(null, this.props.student_course.student_id), React.DOM.td(null, this.props.student_course.student_name), React.DOM.td(null, this.props.student_course.created_at), React.DOM.td(null, React.DOM.a({
+        className: 'btn btn-default',
+        onClick: this.handleRemoveStudent
+      }, 'Remove')));
+    },
+    render: function() {
+      return this.classRow();
+    }
+  });
+
+}).call(this);
+:ET

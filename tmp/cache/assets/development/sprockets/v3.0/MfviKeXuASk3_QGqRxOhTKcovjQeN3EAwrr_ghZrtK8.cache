@@ -1,0 +1,51 @@
+I"s(function() {
+  this.ViewClass = React.createClass({
+    getInitialState: function() {
+      return {
+        student_courses: this.props.data
+      };
+    },
+    getDefaultProps: function() {
+      return {
+        student_courses: []
+      };
+    },
+    removeStudent: function(student_course) {
+      var index, student_courses;
+      index = this.state.student_courses.indexOf(student_course);
+      student_courses = React.addons.update(this.state.student_courses, {
+        $splice: [[index, 1]]
+      });
+      return this.replaceState({
+        student_courses: student_courses
+      });
+    },
+    render: function() {
+      var student_course;
+      console.log('rendering class');
+      React.DOM.div;
+      React.createElement(Students);
+      return React.DOM.div({
+        className: 'courses'
+      }, React.DOM.h2({
+        className: 'title'
+      }, 'View Class'), React.DOM.hr(null), React.DOM.table({
+        className: 'table table-bordered'
+      }, React.DOM.thead(null, React.DOM.tr(null, React.DOM.th(null, 'Class ID'), React.DOM.th(null, 'Class Name'), React.DOM.th(null, 'Starting Date'), React.DOM.th(null, '# of Students'), React.DOM.th(null, 'Actions'), React.DOM.tbody(null, (function() {
+        var i, len, ref, results;
+        ref = this.props.student_courses;
+        results = [];
+        for (i = 0, len = ref.length; i < len; i++) {
+          student_course = ref[i];
+          results.push(React.createElement(Class, {
+            student_course: student_course,
+            handleRemove: this.removeStudent
+          }));
+        }
+        return results;
+      }).call(this))))));
+    }
+  });
+
+}).call(this);
+:ET

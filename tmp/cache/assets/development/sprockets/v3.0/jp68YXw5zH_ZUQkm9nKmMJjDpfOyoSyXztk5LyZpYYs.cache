@@ -1,0 +1,15 @@
+I",(function() {
+  this.Class = React.createClass({
+    classRow: function() {
+      return React.DOM.tr(null, React.DOM.td(null, this.props.student_course.class_id), React.DOM.td(null, this.props.student_course.student_id), React.DOM.td(null, this.props.student_course.student_name), React.DOM.td(null, this.props.student_course.created_at), React.DOM.td(null, React.DOM.a({
+        className: 'btn btn-default',
+        onClick: this.handleView
+      }, 'Remove')));
+    },
+    render: function() {
+      return this.classRow();
+    }
+  });
+
+}).call(this);
+:ET
